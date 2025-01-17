@@ -1,4 +1,5 @@
 🧩 8-Puzzle Solver Game
+-
 
 Welcome to the 8-Puzzle Solver Game! 🎉 This project is built in C# using Avalonia. It's a fun and educational journey into solving the classic 8-puzzle problem, designed to showcase algorithm design and problem-solving skills.
 
@@ -17,6 +18,7 @@ This is an open-source project, so feel free to:
     💬 Reach out if you want to collaborate—teamwork makes the dream work!
 
 🤷‍♂️ About This Project
+-
 
 Here are a few disclaimers (read with a grain of humor):
 
@@ -25,6 +27,7 @@ Here are a few disclaimers (read with a grain of humor):
     Suggestions, feedback, or even a casual conversation? Let me know—I'll appreciate it all (even flirting, why not?).
 
 🚀 Getting Started
+-
 
     Clone the repository:
 
@@ -34,11 +37,14 @@ Here are a few disclaimers (read with a grain of humor):
     Build and run the project.
 
 🛡️ License
+-
 
-This project is open source, so feel free to use, modify, or share it. But remember, good vibes only! ❤️
+This project is open source (yeah no shit), so feel free to use, modify, or share it. But remember, good vibes only! ❤️
 📝 Acknowledgments
 
 Thanks to anyone who's considering contributing, reviewing, or simply enjoying this little piece of code!
+
 THANK YOU!!!
+-
 
 Happy coding! 💻✨
