@@ -1,0 +1,5 @@
+#Files that are created by Jetbrains Rider
+.idea
+bin
+obj
+app.manifest
