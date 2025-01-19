@@ -58,4 +58,9 @@ public partial class MainWindow : Window
         _gameState.ResetBoard();
         RenderBoard();
     }
+
+    private void Solve_Click(object sender, RoutedEventArgs e)
+    {
+        
+    }
 }

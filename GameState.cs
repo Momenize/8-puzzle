@@ -13,6 +13,8 @@ public class GameState
         ResetBoard();
     }
 
+    
+
     public void ResetBoard()
     {
         // Initialize tiles in order
@@ -32,6 +34,9 @@ public class GameState
     public void ShuffleBoard()
     {
         var rand = new Random();
+        var emptyTile = (rand.Next(0, 2), rand.Next(0, 2));
+        Board[emptyTile.Item1, emptyTile.Item2] = 0;
+        EmptyTile = emptyTile;
         var tiles = new ArrayList();
         for (int i = 1; i <= 8; i++)
         {
@@ -41,6 +46,7 @@ public class GameState
         {
             for (int j = 0; j < 3; j++)
             {
+                if (i == emptyTile.Item1 && j == emptyTile.Item2) continue;
                 if (tiles.Count > 0)
                 {
                     var num = rand.Next(0, tiles.Count - 1);
@@ -49,6 +55,7 @@ public class GameState
                 }
             }
         }
+
 
         var linear = new int[9];
         var counter = 0;
@@ -64,14 +71,17 @@ public class GameState
         int iIndex = 0, jIndex = 0;
         for (int i = 0; i < 8; i++)
         {
+            if (i == emptyTile.Item1) continue;
             for (int j = i + 1; j < 9; j++)
             {
-                if (linear[i] > 0 && linear[j] > 0 && linear[i] > linear[j])
+                if (j == emptyTile.Item2) continue;
+                if (linear[i] > linear[j])
                 {
                     invCount++;
                     iIndex = i;
                     jIndex = j;
                 }
+                
             }
         }
 
