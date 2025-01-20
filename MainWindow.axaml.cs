@@ -1,7 +1,12 @@
+using System;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using Avalonia.Media.Imaging;
+using Avalonia.Threading;
 using MsgBox;
+using SkiaSharp;
 
 namespace Puzzle;
 
@@ -13,10 +18,10 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         _gameState = new GameState();
-        RenderBoard();
+        RenderBoard(_gameState.Board);
     }
 
-    private void RenderBoard()
+    private void RenderBoard(int[, ] board)
     {
         GameBoard.Children.Clear();
         for (int i = 0; i < 3; i++)
@@ -25,9 +30,9 @@ public partial class MainWindow : Window
             {
                 var button = new Button
                 {
-                    Content = _gameState.Board[i, j] == 0 ? "" : _gameState.Board[i, j].ToString(),
+                    Content = board[i, j] == 0 ? "  " : board[i, j].ToString(),
                     FontSize = 24,
-                    Background = Brushes.LightGray,
+                    Background = Brushes.Yellow,
                     Tag = (i, j) // Store row and column as tag
                 };
                 button.Click += Tile_Click;
@@ -40,7 +45,7 @@ public partial class MainWindow : Window
     {
         if (sender is not Button { Tag: (int row, int col) }) return;
         if (!_gameState.MoveTile(row, col)) return;
-        RenderBoard();
+        RenderBoard(_gameState.Board);
         if (!_gameState.IsSolved()) return;
         const string text = "You win!";
         const string title = "Congratulations!";
@@ -50,17 +55,27 @@ public partial class MainWindow : Window
     private void Shuffle_Click(object sender, RoutedEventArgs e)
     {
         _gameState.ShuffleBoard();
-        RenderBoard();
+        RenderBoard(_gameState.Board);
     }
 
     private void Reset_Click(object sender, RoutedEventArgs e)
     {
         _gameState.ResetBoard();
-        RenderBoard();
+        RenderBoard(_gameState.Board);
     }
 
-    private void Solve_Click(object sender, RoutedEventArgs e)
+    private async void Solve_Click(object sender, RoutedEventArgs e)
     {
-        
+        try
+        {
+            await _gameState.SolveWithBranchAndBound(RenderBoard);
+            const string text = "You win!";
+            const string title = "Congratulations!";
+            MessageBox.Show(this, text, title, MessageBox.MessageBoxButtons.Ok);
+        }
+        catch
+        {
+            return;
+        }
     }
 }
