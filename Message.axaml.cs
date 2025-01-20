@@ -25,7 +25,9 @@ partial class MessageBox : Window
     {
         var msgbox = new MessageBox()
         {
-            Title = title
+            Title = title,
+            Height = 500,
+            Width = 500
         };
         msgbox.FindControl<TextBlock>("Text").Text = text;
         var buttonPanel = msgbox.FindControl<StackPanel>("Buttons");

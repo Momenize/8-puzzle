@@ -1,7 +1,9 @@
 using System;
 using System.Threading.Tasks;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Threading;
@@ -31,10 +33,19 @@ public partial class MainWindow : Window
                 var button = new Button
                 {
                     Content = board[i, j] == 0 ? "  " : board[i, j].ToString(),
-                    FontSize = 24,
+                    FontSize = 124,
                     Background = Brushes.Yellow,
+                    HorizontalContentAlignment = HorizontalAlignment.Center,
+                    VerticalContentAlignment = VerticalAlignment.Center,
+                    Foreground = Brushes.Black,
+                    Margin = new Thickness(0),
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch,
+                    BorderBrush = Brushes.White,
                     Tag = (i, j) // Store row and column as tag
                 };
+                // button.Padding = new Thickness(0, 0, 0, 0);
+                button.BorderThickness = new Thickness(1);
                 button.Click += Tile_Click;
                 GameBoard.Children.Add(button);
             }

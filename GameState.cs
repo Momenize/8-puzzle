@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Avalonia.Animation;
 
 namespace Puzzle;
 
@@ -97,7 +98,6 @@ public class GameState
     
     public bool MoveTile(int row, int col)
     {
-        // Check if the clicked tile is adjacent to the empty space
         if (Math.Abs(row - EmptyTile.Row) + Math.Abs(col - EmptyTile.Col) == 1)
         {
             Board[EmptyTile.Row, EmptyTile.Col] = Board[row, col];

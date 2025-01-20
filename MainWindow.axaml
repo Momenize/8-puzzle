@@ -6,17 +6,23 @@
         x:Class="Puzzle.MainWindow"
         Background="Black"
         Title="8-Puzzle Game">
-        <StackPanel>
-                <!-- Game Board -->
-                <UniformGrid Rows="3" Columns="3" Margin="5" x:Name="GameBoard">
-                        <!-- Tiles will be added dynamically in code-behind -->
-                </UniformGrid>
+        <Grid>
+                <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/> <!-- GameBoard fills remaining space -->
+                        <RowDefinition Height="Auto"/> <!-- Buttons take minimal height -->
+                </Grid.RowDefinitions>
 
-                <!-- Controls -->
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                <!-- UniformGrid for Game Tiles -->
+                <UniformGrid Grid.Row="0" Rows="3" Columns="3" x:Name="GameBoard"
+                             HorizontalAlignment="Stretch"
+                             VerticalAlignment="Stretch"
+                             Margin="0" />
+
+                <!-- Buttons Section -->
+                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
                         <Button Content="Shuffle" Click="Shuffle_Click" Width="100" Margin="5" />
                         <Button Content="Reset" Click="Reset_Click" Width="100" Margin="5" />
                         <Button Content="Solve" Click="Solve_Click" Width="100" Margin="5" />
                 </StackPanel>
-        </StackPanel>
+        </Grid>
 </Window>
