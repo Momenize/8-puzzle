@@ -200,6 +200,8 @@ public class GameState
     private int CalculateManhattan(int[,] board)
     {
         int distance = 0;
+        int linearConflict = 0;
+
         for (int i = 0; i < 3; i++)
         {
             for (int j = 0; j < 3; j++)
@@ -209,11 +211,36 @@ public class GameState
                     int value = board[i, j] - 1;
                     int targetRow = value / 3;
                     int targetCol = value % 3;
+
+                    // Manhattan Distance
                     distance += Math.Abs(i - targetRow) + Math.Abs(j - targetCol);
+
+                    // Linear Conflict
+                    if (i == targetRow)
+                    {
+                        for (int col = j + 1; col < 3; col++)
+                        {
+                            if (board[i, col] != 0 && board[i, col] - 1 / 3 == i && board[i, col] < board[i, j])
+                            {
+                                linearConflict += 2;
+                            }
+                        }
+                    }
+                    if (j == targetCol)
+                    {
+                        for (int row = i + 1; row < 3; row++)
+                        {
+                            if (board[row, j] != 0 && board[row, j] - 1 % 3 == j && board[row, j] < board[i, j])
+                            {
+                                linearConflict += 2;
+                            }
+                        }
+                    }
                 }
             }
         }
-        return distance;
+
+        return distance + linearConflict;
     }
 
     private int[,] CloneBoard(int[,] board)
