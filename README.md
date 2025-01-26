@@ -40,6 +40,7 @@ Here are a few disclaimers (read with a grain of humor):
 -
 
 This project is open source (yeah no shit), so feel free to use, modify, or share it. But remember, good vibes only! ❤️
+
 📝 Acknowledgments
 
 Thanks to anyone who's considering contributing, reviewing, or simply enjoying this little piece of code!
