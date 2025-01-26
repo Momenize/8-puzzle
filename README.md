@@ -7,7 +7,9 @@ Welcome to the 8-Puzzle Solver Game! 🎉 This project is built in C# using Aval
 
 ✨ Features to Be Added
 
-    Auto-Solve the puzzle using Branch n' Bound Algorithm   
+    -I'd like to improve the app's user interface, whenever I had the time, off course. 
+    -I'd also like to fix problems with the shuffle method, since it doesn't work so right sometimes.
+    -Also, the method I've come up with to solve the puzzle using Branch and Bound has to improve, because it takes so much time and off course, doesn't give the satisfying result for complexly-shuffled puzzles.
     
 🤝 How You Can Contribute
 
