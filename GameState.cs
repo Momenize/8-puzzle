@@ -9,24 +9,10 @@ using Avalonia.Controls;
 
 namespace Puzzle;
 
-public class GameState : INotifyPropertyChanged
+public class GameState
 {
-    public event PropertyChangedEventHandler PropertyChanged;
     public int[,] Board { get; private set; } = new int[3, 3];
     public (int Row, int Col) EmptyTile { get; private set; }
-    private int _moveCount;
-    public int MoveCount
-    {
-        get => _moveCount;
-        private set
-        {
-            if (_moveCount != value)
-            {
-                _moveCount = value;
-                OnPropertyChanged(nameof(MoveCount));
-            }
-        }
-    }
     
     public GameState()
     {
@@ -49,7 +35,6 @@ public class GameState : INotifyPropertyChanged
         }
         Board[2, 2] = 0; // Empty space
         EmptyTile = (2, 2);
-        MoveCount = 0;
     }
 
     public void ShuffleBoard()
@@ -115,7 +100,6 @@ public class GameState : INotifyPropertyChanged
             Board[EmptyTile.Row, EmptyTile.Col] = Board[row, col];
             Board[row, col] = 0;
             EmptyTile = (row, col);
-            MoveCount++;
             return true;
         }
         return false;
@@ -284,10 +268,5 @@ public class GameState : INotifyPropertyChanged
             H = h;
             Previous = previous;
         }
-    }
-    
-    protected void OnPropertyChanged(string name)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 }
