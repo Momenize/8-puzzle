@@ -1,16 +1,32 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Animation;
+using Avalonia.Controls;
 
 namespace Puzzle;
 
-public class GameState
+public class GameState : INotifyPropertyChanged
 {
+    public event PropertyChangedEventHandler PropertyChanged;
     public int[,] Board { get; private set; } = new int[3, 3];
     public (int Row, int Col) EmptyTile { get; private set; }
+    private int _moveCount;
+    public int MoveCount
+    {
+        get => _moveCount;
+        private set
+        {
+            if (_moveCount != value)
+            {
+                _moveCount = value;
+                OnPropertyChanged(nameof(MoveCount));
+            }
+        }
+    }
     
     public GameState()
     {
@@ -22,10 +38,10 @@ public class GameState
     public void ResetBoard()
     {
         // Initialize tiles in order
-        int counter = 1;
-        for (int i = 0; i < 3; i++)
+        var counter = 1;
+        for (var i = 0; i < 3; i++)
         {
-            for (int j = 0; j < 3; j++)
+            for (var j = 0; j < 3; j++)
             {
                 Board[i, j] = counter;
                 counter++;
@@ -33,6 +49,7 @@ public class GameState
         }
         Board[2, 2] = 0; // Empty space
         EmptyTile = (2, 2);
+        MoveCount = 0;
     }
 
     public void ShuffleBoard()
@@ -42,30 +59,28 @@ public class GameState
         Board[emptyTile.Item1, emptyTile.Item2] = 0;
         EmptyTile = emptyTile;
         var tiles = new ArrayList();
-        for (int i = 1; i <= 8; i++)
+        for (var i = 1; i <= 8; i++)
         {
             tiles.Add(i);
         }
-        for (int i = 0; i < 3; i++)
+        for (var i = 0; i < 3; i++)
         {
-            for (int j = 0; j < 3; j++)
+            for (var j = 0; j < 3; j++)
             {
                 if (i == emptyTile.Item1 && j == emptyTile.Item2) continue;
-                if (tiles.Count > 0)
-                {
-                    var num = rand.Next(0, tiles.Count - 1);
-                    Board[i, j] = (int)tiles[num]!;
-                    tiles.RemoveAt(num);    
-                }
+                if (tiles.Count <= 0) continue;
+                var num = rand.Next(0, tiles.Count - 1);
+                Board[i, j] = (int)tiles[num]!;
+                tiles.RemoveAt(num);
             }
         }
 
 
         var linear = new int[9];
         var counter = 0;
-        for (int i = 0; i < 3; i++)
+        for (var i = 0; i < 3; i++)
         {
-            for (int j = 0; j < 3; j++)
+            for (var j = 0; j < 3; j++)
             {
                 linear[counter++] = Board[i, j];
             }
@@ -73,23 +88,20 @@ public class GameState
 
         var invCount = 0;
         int iIndex = 0, jIndex = 0;
-        for (int i = 0; i < 8; i++)
+        for (var i = 0; i < 8; i++)
         {
-            if (i == emptyTile.Item1) continue;
-            for (int j = i + 1; j < 9; j++)
+            for (var j = i + 1; j < 9; j++)
             {
-                if (j == emptyTile.Item2) continue;
-                if (linear[i] > linear[j])
-                {
-                    invCount++;
-                    iIndex = i;
-                    jIndex = j;
-                }
-                
+                if (i == emptyTile.Item1 && j == emptyTile.Item2) continue;
+                if (linear[i] <= linear[j]) continue;
+                invCount++;
+                iIndex = i;
+                jIndex = j;
+
             }
         }
 
-        if (invCount % 2 == 1)
+        if (invCount % 2 != 1) return;
         {
             (Board[iIndex / 3, iIndex % 3], Board[jIndex / 3, jIndex % 3]) = 
                 (Board[jIndex / 3, jIndex % 3], Board[iIndex / 3, iIndex % 3]);
@@ -103,6 +115,7 @@ public class GameState
             Board[EmptyTile.Row, EmptyTile.Col] = Board[row, col];
             Board[row, col] = 0;
             EmptyTile = (row, col);
+            MoveCount++;
             return true;
         }
         return false;
@@ -128,8 +141,7 @@ public class GameState
         var priorityQueue = new PriorityQueue<Node, int>();
         priorityQueue.Enqueue(startState, startState.Cost);
 
-        var visited = new HashSet<string>();
-        visited.Add(GetStateString(Board));
+        var visited = new HashSet<string> { GetStateString(Board) };
 
         while (priorityQueue.Count > 0)
         {
@@ -272,5 +284,10 @@ public class GameState
             H = h;
             Previous = previous;
         }
+    }
+    
+    protected void OnPropertyChanged(string name)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 }

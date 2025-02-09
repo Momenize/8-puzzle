@@ -52,6 +52,7 @@ public partial class MainWindow : Window
         }
     }
 
+
     private void Tile_Click(object sender, RoutedEventArgs e)
     {
         if (sender is not Button { Tag: (int row, int col) }) return;

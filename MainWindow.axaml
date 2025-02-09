@@ -17,6 +17,7 @@
                              HorizontalAlignment="Stretch"
                              VerticalAlignment="Stretch"
                              Margin="0" />
+                
 
                 <!-- Buttons Section -->
                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
